@@ -11,5 +11,5 @@ def validate_points(points):
 def validate_plan(plan):
  f=np.asarray(plan['frequencies'],dtype=float)
  if f.ndim!=1 or not 3<=len(f)<=401 or not np.isfinite(f).all() or (f<=0).any() or (f>1).any() or (np.diff(f)<=0).any():raise ValueError('频率须3..401个有限严格递增正值且≤1周期/mm')
- if type(plan['permutations']) is not int or not 199<=plan['permutations']<=499 or type(plan['seed']) is not int or not 0<=plan['seed']<=1000000000:raise ValueError('置换次数199..499与seed须合法整数')
+ if type(plan['permutations']) is not int or not 199<=plan['permutations']<=100000 or type(plan['seed']) is not int or not 0<=plan['seed']<=1000000000:raise ValueError('置换次数199..100000与seed须合法整数')
  return f

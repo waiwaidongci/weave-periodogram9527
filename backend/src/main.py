@@ -15,6 +15,10 @@ from src.routes import auth,source,plans,runs,notes,audit
 @asynccontextmanager
 async def lifespan(app):
  Base.metadata.create_all(engine)
+ with engine.begin() as c:
+  for ddl in ('ALTER TABLE spectrum_runs ADD COLUMN IF NOT EXISTS done_permutations INTEGER DEFAULT 0','ALTER TABLE spectrum_runs ADD COLUMN IF NOT EXISTS observed_part JSON'):
+   try:c.execute(text(ddl))
+   except Exception:pass
  if SEED_DEMO:
   try:
    from scripts.seed_demo import seed

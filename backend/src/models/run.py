@@ -16,5 +16,7 @@ class SpectrumRun(Base):
  peak_frequency:Mapped[float|None]=mapped_column(Double(asdecimal=False),nullable=True)
  max_power:Mapped[float|None]=mapped_column(Double(asdecimal=False),nullable=True)
  global_p:Mapped[float|None]=mapped_column(Double(asdecimal=False),nullable=True)
+ done_permutations:Mapped[int]=mapped_column(default=0)
+ observed_part:Mapped[dict|None]=mapped_column(JSON,nullable=True)
  created_by:Mapped[str]=mapped_column(String(120))
  created_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),default=lambda:datetime.now(timezone.utc))

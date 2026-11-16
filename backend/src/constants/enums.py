@@ -8,6 +8,10 @@ class RunStatus(StrEnum):
  RUNNING='running'
  COMPLETED='completed'
  FAILED='failed'
+class ShardStatus(StrEnum):
+ PENDING='pending'
+ LEASED='leased'
+ DONE='done'
 class NoteStatus(StrEnum):
  DRAFT='draft'
  APPROVED='approved'

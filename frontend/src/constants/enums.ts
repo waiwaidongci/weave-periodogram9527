@@ -1,1 +1,1 @@
-export const ROLES={admin:'织纹研究负责人',analyst:'谱分析员',viewer:'补测观察员'};export const RUN_STATUS={queued:'等待全谱计算',running:'QR谱与全局置换',completed:'已成册',failed:'失败'};export const NOTE_STATUS={draft:'待审阅',approved:'已批准',rejected:'已退回'};
+export const ROLES={admin:'织纹研究负责人',analyst:'谱分析员',viewer:'补测观察员'};export const RUN_STATUS={queued:'等待全谱计算',running:'QR谱与全局置换',completed:'已成册',failed:'失败'};export const NOTE_STATUS={draft:'待审阅',approved:'已批准',rejected:'已退回'};export const SHARD_STATUS={pending:'待领取',leased:'执行中',done:'已完成'};

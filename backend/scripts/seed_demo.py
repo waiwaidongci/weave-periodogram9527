@@ -2,7 +2,7 @@ import json
 import numpy as np
 from sqlalchemy import select,func
 from src.config.database import Base,engine,SessionLocal
-from src.models import User,TraverseStudy,TraversePoint,FrequencyPlan,SpectrumRun,WeaveNote
+from src.models import User,TraverseStudy,TraversePoint,FrequencyPlan,SpectrumRun,WeaveNote,PermutationShard
 from src.utils.security import hash_password
 from src.utils.serialize import row
 from src.services.analysis import analyze
@@ -25,5 +25,5 @@ def seed():
   if not run:
    study=db.scalar(select(TraverseStudy).where(TraverseStudy.name==names[0]));points=[row(x) for x in db.scalars(select(TraversePoint).where(TraversePoint.study_id==study.id).order_by(TraversePoint.position))];plan=db.scalar(select(FrequencyPlan).where(FrequencyPlan.study_id==study.id));planrow=row(plan);result=analyze(row(study),points,planrow);run=SpectrumRun(study_id=study.id,plan_id=plan.id,name='A织片冻结网格谱峰研究',source_snapshot={'study':row(study),'points':points},plan_snapshot=planrow,status='completed',result=result,peak_frequency=result['best']['frequency'],max_power=result['observed_max_power'],global_p=result['global_test']['global_p'],created_by='analyst@lingdu.demo');db.add(run);db.commit()
   if not db.scalar(select(WeaveNote).where(WeaveNote.name=='A织片不等距补测初稿')):db.add(WeaveNote(run_id=run.id,name='A织片不等距补测初稿',interpretation='谱峰和全网格p提供空间周期证据，不能认定织机制造原因。',next_step='另取独立织片，预先保持频率计划并补测不等距位置，核对采样窗口和混叠。',result_snapshot=run.result,created_by='analyst@lingdu.demo'));db.commit()
-  counts={m.__tablename__:db.scalar(select(func.count()).select_from(m)) for m in [User,TraverseStudy,TraversePoint,FrequencyPlan,SpectrumRun,WeaveNote]};print(json.dumps(counts));return counts
+  counts={m.__tablename__:db.scalar(select(func.count()).select_from(m)) for m in [User,TraverseStudy,TraversePoint,FrequencyPlan,SpectrumRun,WeaveNote,PermutationShard]};print(json.dumps(counts));return counts
 if __name__=='__main__':seed()

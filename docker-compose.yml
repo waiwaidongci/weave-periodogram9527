@@ -34,6 +34,9 @@ services:
       RATE_LIMIT_WRITES: ${RATE_LIMIT_WRITES:-60}
       SEED_DEMO: ${SEED_DEMO:-true}
       ARTIFACT_DIR: /artifacts
+      PERM_SHARD_SIZE: ${PERM_SHARD_SIZE:-1000}
+      SHARD_LEASE_SECONDS: ${SHARD_LEASE_SECONDS:-300}
+      SWEEP_INTERVAL_SECONDS: ${SWEEP_INTERVAL_SECONDS:-30}
     ports: ["${BACKEND_PORT:-19238}:8000"]
     volumes: ["artifacts:/artifacts"]
     depends_on:
@@ -48,7 +51,7 @@ services:
   worker:
     build: ./backend
     container_name: ${COMPOSE_PROJECT_NAME:-weave-periodogram}-worker
-    command: ["celery", "-A", "src.worker.app", "worker", "--loglevel=info", "--concurrency=1", "--hostname=worker@%h"]
+    command: ["celery", "-A", "src.worker.app", "worker", "--loglevel=info", "--concurrency=${WORKER_CONCURRENCY:-4}", "--beat", "--hostname=worker@%h"]
     environment: *backend-env
     volumes: ["artifacts:/artifacts"]
     depends_on:

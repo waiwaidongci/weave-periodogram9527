@@ -7,5 +7,5 @@ class PlanInput(BaseModel):
  min_frequency:float=Field(gt=0,le=1,strict=True)
  max_frequency:float=Field(gt=0,le=1,strict=True)
  grid_size:int=Field(ge=3,le=401,strict=True)
- permutations:int=Field(ge=199,le=499,strict=True)
+ permutations:int=Field(ge=199,le=100000,strict=True)
  seed:int=Field(ge=0,le=1000000000,strict=True)

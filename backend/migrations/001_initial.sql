@@ -2,3 +2,9 @@
 -- traverse_studies(name UNIQUE); traverse_points(study_id,reference UNIQUE,position UNIQUE,thickness)
 -- frequency_plans(frequencies JSON,permutations,seed); spectrum_runs(source_snapshot JSON,plan_snapshot JSON,result JSON)
 -- weave_notes(result_snapshot JSON), users, audit_logs. Numeric mappings use Double(asdecimal=False).
+-- Sharded permutation execution (B up to 100000):
+--   spectrum_runs gains done_permutations INT and observed_part JSON (staging for the frozen observed spectrum).
+--   permutation_shards(run_id,shard_index UNIQUE per run,start_index,perm_count,rng_state JSON,
+--     status pending/leased/done,lease_owner,lease_token,lease_expires_at,last_dispatch_at,attempts,
+--     null_maxima JSON,completed_at). rng_state checkpoints the serial default_rng(seed) stream at each
+--     shard boundary, so shard size, completion order and worker concurrency never change the sequence.
